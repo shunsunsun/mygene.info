@@ -1,5 +1,5 @@
 # biothings
-biothings[web_extra]
+git+git://github.com/biothings/biothings.api.git@es7#egg=biothings[web_extra]
 
 #Optional
 raven
