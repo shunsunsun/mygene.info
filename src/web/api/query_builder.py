@@ -19,6 +19,10 @@ def safe_genome_pos(s):
         raise ValueError('invalid type "%s" for "save_genome_pos"' % type(s))
 
 class ESQueryBuilder(ESQueryBuilder):
+    def _return_query_kwargs(self, query_kwargs):
+        _kwargs = {"index": self.index, "rest_total_hits_as_int": True}
+        _kwargs.update(query_kwargs)
+        return _kwargs
     def _POST_single_query(self, term, scopes=None):
         if not term:
             return self.queries.match({"non_exist_field":""})
@@ -205,7 +209,7 @@ class ESQueryBuilder(ESQueryBuilder):
                 "query": "%(q)s",
                 # "analyzer": "string_lowercase",
                 "default_operator": "AND",
-                "auto_generate_phrase_queries": True
+                "auto_generate_synonyms_phrase_query": True
             }
         }
         _query = json.dumps(_query)
@@ -374,7 +378,7 @@ class ESQueryBuilder(ESQueryBuilder):
                                 "query_string": {
                                     "query": "%(q)s",
                                     "default_operator": "AND",
-                                    "auto_generate_phrase_queries": True
+                                    "auto_generate_synonyms_phrase_query": True
                                 },
                             },
                             "weight": 1
